@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="557.0" prefWidth="717.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.sudoku6x6.Controller">
+    <children>
+        <GridPane fx:id="boardGrid" gridLinesVisible="true" layoutX="230.0" layoutY="118.0" prefHeight="191.0" prefWidth="235.0">
+
+            <columnConstraints>
+                <ColumnConstraints prefWidth="60.0" />
+                <ColumnConstraints prefWidth="60.0" />
+                <ColumnConstraints prefWidth="60.0" />
+                <ColumnConstraints prefWidth="60.0" />
+                <ColumnConstraints prefWidth="60.0" />
+                <ColumnConstraints prefWidth="60.0" />
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints prefHeight="60.0" />
+                <RowConstraints prefHeight="60.0" />
+                <RowConstraints maxHeight="47.0" minHeight="34.0" prefHeight="47.0" />
+                <RowConstraints maxHeight="56.0" minHeight="32.0" prefHeight="32.0" />
+                <RowConstraints prefHeight="60.0" />
+                <RowConstraints prefHeight="60.0" />
+            </rowConstraints>
+
+            <children>
+                <TextField fx:id="cell00" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="cell01" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <TextField fx:id="cell02" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                <TextField fx:id="cell03" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                <TextField fx:id="cell04" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+                <TextField fx:id="cell05" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+                <TextField fx:id="cell10" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="cell11" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="cell12" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <TextField fx:id="cell13" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <TextField fx:id="cell14" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                <TextField fx:id="cell15" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                <TextField fx:id="cell20" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="cell21" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="cell22" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <TextField fx:id="cell23" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                <TextField fx:id="cell24" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                <TextField fx:id="cell25" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                <TextField fx:id="cell30" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <TextField fx:id="cell31" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <TextField fx:id="cell32" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                <TextField fx:id="cell33" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                <TextField fx:id="cell34" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                <TextField fx:id="cell35" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                <TextField fx:id="cell40" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <TextField fx:id="cell41" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <TextField fx:id="cell42" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                <TextField fx:id="cell43" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                <TextField fx:id="cell44" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                <TextField fx:id="cell45" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                <TextField fx:id="cell50" alignment="CENTER" prefHeight="59.0" prefWidth="0.0" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <TextField fx:id="cell51" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <TextField fx:id="cell52" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                <TextField fx:id="cell53" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                <TextField fx:id="cell54" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                <TextField fx:id="cell55" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>
