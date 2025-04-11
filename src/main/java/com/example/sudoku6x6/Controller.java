@@ -21,6 +21,7 @@ public class Controller {
 	@FXML private Label statusLabel;
 	@FXML private Button btnIniciar;
 	@FXML private Button btnComoJugar;
+	@FXML private Button verificarSudokuButton;
 	
 	// Elementos del tablero Sudoku
 	@FXML private GridPane boardGrid;
@@ -29,20 +30,66 @@ public class Controller {
 	private View view;
 	private Model model;
 	private String[][] clues;
-
+	
 	@FXML
-	public void initialize() {
-		if (statusLabel != null) {
-			statusLabel.setText("SUDOKU 6X6 :D");
+	private void verificarVictoria(ActionEvent event) {
+		// Verificar si todas las celdas están llenas
+		if (!view.isBoardComplete()) {
+			showAlert("Error", "El tablero aún tiene celdas vacías.", "Por favor, completa todas las celdas antes de verificar.");
+			return;
 		}
-		// Inicializa la View con los componentes gráficos
-		if (boardGrid != null && Title != null) {
-			view = new View(boardGrid, Title);
-			view.setupCellValidation();
-			model = new Model();
+		
+		boolean esValido = model.esSudokuValido(); // Asumiendo que tienes un modelo que realiza la validación
+		
+		if (esValido) {
+			showAlert("¡Felicidades!", null, "El Sudoku ha sido completado correctamente 🎉");
+		} else {
+			showAlert("Sudoku no válido", null, "Revisa tus números e intenta nuevamente.");
+		}
+	}
+	@FXML
+	private void verificarSudoku() {
+		if (model.esSudokuValido()) {
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("¡Sudoku correcto!");
+			alert.setHeaderText(null);
+			alert.setContentText("¡Felicidades! Completaste correctamente el Sudoku.");
+			alert.showAndWait();
+		} else {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error en el Sudoku");
+			alert.setHeaderText(null);
+			alert.setContentText("Hay errores en el tablero. Verifica los valores ingresados.");
+			alert.showAndWait();
 		}
 	}
 	
+	@FXML
+	public void initialize() {
+		if (model == null) {
+			model = new Model();  // Instancia del Modelo
+		}
+		
+		if (view == null && boardGrid != null && Title != null) {
+			view = new View(boardGrid, Title);  // Instancia de la Vista
+			model.setView(view);  // Pasamos la vista al modelo
+			
+			// Llamamos a setupCellValidation solo si view ya ha sido inicializada
+			view.setupCellValidation();
+			Button verificarBtn = view.getVerificarButton();
+			if (!boardGrid.getChildren().contains(verificarBtn)) {
+				verificarBtn.setOnAction(this::verificarVictoria); // Asocia al método en el controller
+				boardGrid.add(verificarBtn, 6, 0);  // Agrega el botón en el GridPane
+			}
+			
+			if (statusLabel != null) {
+				statusLabel.setText("SUDOKU 6X6 :D");
+			}
+		}
+	}
+
+	
+
 	/* Métodos para el menú principal  */
 	public void iniciarJuego(ActionEvent event) throws Exception {
 					Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/sudoku6x6/sudoku_main.fxml")));
@@ -133,3 +180,4 @@ public class Controller {
 		alert.showAndWait();
 	}
 }
+
