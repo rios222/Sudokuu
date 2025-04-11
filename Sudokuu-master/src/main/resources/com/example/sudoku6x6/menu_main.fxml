@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="320.0" spacing="20" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sudoku6x6.Controller">
+
+    <Label alignment="TOP_LEFT" contentDisplay="TOP" text="SUDOKUUU" textAlignment="CENTER" textOverrun="CLIP">
+      <font>
+         <Font name="Comic Sans MS" size="43.0" />
+      </font></Label>
+    <Button onAction="#iniciarJuego" text="Click aqui para iniciar el juego :)">
+      <font>
+         <Font name="Impact" size="18.0" />
+      </font></Button>
+   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../images/sudoku.gif" />
+      </image>
+   </ImageView>
+   <effect>
+      <ColorAdjust />
+   </effect>
+
+</VBox>
