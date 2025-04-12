@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="416.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sudoku6x6.Controller">
+<AnchorPane prefHeight="416.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sudoku6x6.Controller">
     <children>
       <Rectangle fx:id="Sombra" arcHeight="5.0" arcWidth="5.0" height="269.0" layoutX="59.0" layoutY="78.0" stroke="BLACK" strokeType="INSIDE" width="329.0" />
       <Text fx:id="Title" layoutX="56.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUDOKU 6X6 :D">
@@ -33,7 +28,7 @@
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="HelpButton" layoutX="336.0" layoutY="18.0" mnemonicParsing="false" onAction="#Help" text="Ayuda">
+      <Button fx:id="HelpButton" layoutX="394.0" layoutY="20.0" mnemonicParsing="false" onAction="#Help" text="Ayuda">
          <font>
             <Font size="16.0" />
          </font>

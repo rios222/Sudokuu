@@ -3,12 +3,15 @@ package com.example.sudoku6x6;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+// Inicio de la clase Model con toda la logica del sudoku
 public class Model {
+    //Matriz principal del sudoku
     ArrayList<ArrayList<String>> sudoku = new ArrayList<>();
-
+    // Restricciones para filas, columnas y bloques (se asegura que no se repitan letras(numeros))
     ArrayList<ArrayList<String>> restriccionesFila = new ArrayList<>();
     ArrayList<ArrayList<String>> restriccionesColumna = new ArrayList<>();
     ArrayList<ArrayList<String>> restriccionesBloque = new ArrayList<>();
+
 
     int min = 1, max = 6;
     int numeroAleatorio;

@@ -17,25 +17,29 @@ import javafx.scene.Scene;
 import java.util.Objects;
 
 public class Controller {
+	String[][] tablerofantasma;
+	String[][] clue;
 	// Elementos del menú principal
 	@FXML private Label statusLabel;
 	@FXML private Button btnIniciar;
 	@FXML private Button btnComoJugar;
 	
-	// Elementos del tablero Sudoku
+	// Elementos del tablero
 	@FXML private GridPane boardGrid;
 	@FXML private Text Title;
-	
+
+	// vista y modelo (MVC)
 	private View view;
 	private Model model;
-	private String[][] clues;
 
 	@FXML
 	public void initialize() {
+
+		//se inicia el label del menu principal
 		if (statusLabel != null) {
 			statusLabel.setText("SUDOKU 6X6 :D");
 		}
-		// Inicializa la View con los componentes gráficos
+		// aparece la vista y el modelo cuando se han cargado los componentes del tablero
 		if (boardGrid != null && Title != null) {
 			view = new View(boardGrid, Title);
 			view.setupCellValidation();
@@ -43,7 +47,9 @@ public class Controller {
 		}
 	}
 	
-	/* Métodos para el menú principal  */
+	// llamado de la ventana main
+
+	//encargado de hacer el cambio al tablero principal del juego
 	public void iniciarJuego(ActionEvent event) throws Exception {
 					Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/sudoku6x6/sudoku_main.fxml")));
 					Stage stage = new Stage();
@@ -52,7 +58,7 @@ public class Controller {
 					stage.show();
 					((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 				}
-	
+				//instrucciones basicas del juegp
 	public void comoJugar(ActionEvent event) {
 		showAlert("Como se juega? D:", "Instrucciones del sudoku 6x6",
 				"LLena la cuadrícula del 1 al 6 sin repetir número en filas, columnas o cuadros de 3x2.");
@@ -60,9 +66,7 @@ public class Controller {
 
 
 
-
-	/* Métodos para el tablero Sudoku (modificados para usar View) ESPERANDO AL MODEL CON LA LOGICA DEL
-	* SUDOKUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU */
+	// encargado de iniciar la partida
 	@FXML
 	private void Start(ActionEvent event) {
 
@@ -76,22 +80,32 @@ public class Controller {
 		alert.showAndWait().ifPresent(response -> {
 			if (response == javafx.scene.control.ButtonType.OK) {
 				// 3. Lógica para iniciar el juego si confirma
-				view.clearBoard();
+				view.clearBoard(); //limpia el tablero
+
+				//Metodo encargado de generar los tableros
 				String[][] generarClues = model.GenTablero();
-				view.setGenTablero(generarClues);
+				tablerofantasma = generarClues;
+				clue = generarClues; //clue guarda la solucion
+				for (int i = 0; i < tablerofantasma.length; i++) {
+					for (int j = 0; j < tablerofantasma[i].length; j++) {
+						int binario = (int) (Math.random() * 3); // Genera 0 o 1
+						if (binario == 1) tablerofantasma[i][j] = generarClues[i][j]; //arreglar esto
+						else tablerofantasma[i][j] = "";
+					}
+				}
+				view.setGenTablero(tablerofantasma);
 				view.setTitle("¡Juego Iniciado!");
 			} //si hace click en cancelar no sucede nada
 		});
 	}
 
+	//conexion con el boton de view y la ayuda
 	@FXML
 	private void Help(ActionEvent event) {
 		comoJugar(event);
 	}
 
-
-	// Model //// // // / / // / / /// / / / // / / / /
-
+	//Reinicia el juego y genera el tablero desde cero
 	@FXML
 	private void Restart(ActionEvent event) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -103,6 +117,11 @@ public class Controller {
 			if (response == javafx.scene.control.ButtonType.OK) {
 				view.clearBoard();
 				view.setTitle("Sudoku 6x6 - Reiniciado");
+
+				//Cambiar aqui con el tablero fantasma
+				view.setGenTablero(tablerofantasma);
+
+
 			}
 		});
 	}
@@ -113,15 +132,15 @@ public class Controller {
 
 	@FXML
 	private void Incognit(ActionEvent event) {
-		int randomNum = (int) (Math.random() * 6) + 1;
 		int row = (int) (Math.random() * 6);
 		int col = (int) (Math.random() * 6);
 
+
 		// value genera el numero random
-		view.updateCell(row, col, String.valueOf(randomNum));
+		view.updateCell(row, col, String.valueOf(clue[row][col]));
+		System.out.println(clue[row][col]);
 		view.setCellStyle(row, col, "-fx-border-color: blue; -fx-border-width: 2;");
-		
-		showAlert("Sugerencia", "Prueba con:", "Número " + randomNum);
+		showAlert("Sugerencia", "Prueba con:", "Número " + clue[row][col]);
 	}
 	
 	/* Metodo auxiliar  */
