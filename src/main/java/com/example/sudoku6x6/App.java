@@ -15,7 +15,7 @@ public class App extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/sudoku6x6/menu_main.fxml")));
 		primaryStage.setTitle("Menú Principal - Sudoku 6x6");
-		primaryStage.setScene(new Scene(root, 700, 600));
+		primaryStage.setScene(new Scene(root, 500, 400));
 		primaryStage.show();
 	}
 	
@@ -23,4 +23,6 @@ public class App extends Application {
 		launch(args);
 	}
 }
+
+
 

@@ -1,77 +1,58 @@
 package com.example.sudoku6x6;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.scene.control.Alert;
 
+//Contiene el tablero y el titulo
 public class View {
 	private GridPane boardGrid;
 	private Text title;
-	
+
+	//Constructor que recibe el Gridpane y el titulo
 	public View(GridPane boardGrid, Text title) {
 		this.boardGrid = boardGrid;
 		this.title = title;
-		
 	}
-		public Button getVerificarButton() {
-			return new Button("Verificar");
-		}
 
-	// Metodo para obtener el valor de una celda en la vista
-	public String getCellValue(int fila, int col) {
-		TextField cell = getCell(fila, col);  // Obtén el TextField correspondiente
-		return cell != null ? cell.getText() : "";  // Devuelve el texto o una cadena vacía si no se encuentra
-	}
-	
-	// Metodo auxiliar privado para obtener la celda desde el GridPane
-	private TextField getCell(int row, int col) {
-		String cellId = "cell" + row + col;
-		return (TextField) boardGrid.lookup("#" + cellId);
-	}
-	
-	// Metodo para verificar si el Sudoku es válido
-	public void verificarVictoria() {
-		if (esSudokuValido()) {
-			mostrarMensajeVictoria();  // Mostrar el mensaje de victoria
-		} else {
-			mostrarMensajeError();  // Mostrar un mensaje de error si el Sudoku no es válido
-		}
-	}
-	
-	//verifica si el tablero esta completo
-	public boolean isBoardComplete() {
+	// Este método revisa si el número ya está en la fila, columna o bloque 2x3
+	private boolean esEntradaValida(int fila, int columna, String valor) {
 		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 6; j++) {
-				if (getCell(i, j).getText().isEmpty()) {
+			// Verifica fila
+			if (i != columna) {
+				TextField cell = getCell(fila, i);
+				if (cell != null && valor.equals(cell.getText())) {
+					return false;
+				}
+			}
+			// Verifica columna
+			if (i != fila) {
+				TextField cell = getCell(i, columna);
+				if (cell != null && valor.equals(cell.getText())) {
 					return false;
 				}
 			}
 		}
+
+		// Verifica el bloque 2x3
+		int bloqueFila = (fila / 2) * 2;
+		int bloqueCol = (columna / 3) * 3;
+
+		for (int i = bloqueFila; i < bloqueFila + 2; i++) {
+			for (int j = bloqueCol; j < bloqueCol + 3; j++) {
+				if (i == fila && j == columna) continue;
+				TextField cell = getCell(i, j);
+				if (cell != null && valor.equals(cell.getText())) {
+					return false;
+				}
+			}
+		}
+
 		return true;
 	}
-	
-	// Mostrar mensaje de victoria
-	private void mostrarMensajeVictoria() {
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.setTitle("Victoria");
-		alert.setHeaderText(null);
-		alert.setContentText("¡Felicidades, has completado el Sudoku correctamente!");
-		alert.showAndWait();
-	}
-	
-	// Mostrar mensaje de error si el Sudoku no es válido
-	private void mostrarMensajeError() {
-		Alert alert = new Alert(Alert.AlertType.ERROR);
-		alert.setTitle("Error");
-		alert.setHeaderText(null);
-		alert.setContentText("El Sudoku no es válido. Intenta nuevamente.");
-		alert.showAndWait();
-	}
-	
-	
-	// Metodo para la validación de celdas
+
+	// Metodo para la validación de celdas para que solo acepten numeros del 1 al 6, de no ser asi muestra un mensaje de error
 	public void setupCellValidation() {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 6; j++) {
@@ -90,13 +71,29 @@ public class View {
 								showErrorAlert("Entrada inválida", "Solo se permiten números del 1 al 6");
 							}
 						}
+						// Llamar a la función para contar los 4 y actualizar el label
+						//faLtan4();
 					});
 				}
 			}
 		}
 	}
-	
-	// Metodo para mostrar alertas de error
+/*
+	private void faLtan4() {
+		int count = 0;
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
+				TextField cell = getCell(i, j);
+				if (cell != null && "4".equals(cell.getText())) {
+					count++;
+				}
+			}
+		}
+		faltan4.setText("Faltan 4: " + count);
+	}
+*/
+
+	// alerta de error comun
 	private void showErrorAlert(String title, String message) {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setTitle(title);
@@ -104,30 +101,31 @@ public class View {
 		alert.setContentText(message);
 		alert.showAndWait();
 	}
-	
-	// Métodos para manipular celdas desde la view
+
+	// Metodo para manipular celdas desde la view
 	public void updateCell(int row, int col, String value) {
 		TextField cell = getCell(row, col);
 		if (cell != null) {
 			cell.setText(value);
 		}
 	}
-	
+
+    //cambia estilo visual de la celda
 	public void setCellStyle(int row, int col, String style) {
 		TextField cell = getCell(row, col);
 		if (cell != null) {
 			cell.setStyle(style);
 		}
 	}
-	
+    // activa o desactiva la celda
 	public void setCellEditable(int row, int col, boolean editable) {
 		TextField cell = getCell(row, col);
 		if (cell != null) {
 			cell.setEditable(editable);
 		}
 	}
-	
-	// Métodos para el tablero completo
+
+	// limpia el tablero visualmente
 	public void clearBoard() {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 6; j++) {
@@ -137,7 +135,7 @@ public class View {
 			}
 		}
 	}
-	
+    //agrega las pistas generadas y bloquea las celdas
 	public void setGenTablero(String[][] clues) {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 6; j++) {
@@ -149,17 +147,17 @@ public class View {
 			}
 		}
 	}
-	
-	// Métodos para el título
+
+	// Texto del titulo
 	public void setTitle(String text) {
 		if (title != null) {
 			title.setText(text);
 		}
 	}
-	
-	// Metodo auxiliar para validar el Sudoku
-	private boolean esSudokuValido() {
-		// Implementa la lógica para validar si el Sudoku es válido
-		return true;  // Retorna true si el Sudoku es válido, de lo contrario false
+    //Busca y retorna el TextField correspondiente a la posición (row, col) usando su ID en el GridPane
+	private TextField getCell(int row, int col) {
+		String cellId = "cell" + row + col;
+		return (TextField) boardGrid.lookup("#" + cellId);
 	}
 }
+
