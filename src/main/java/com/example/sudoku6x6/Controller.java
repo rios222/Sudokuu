@@ -29,6 +29,8 @@ public class Controller {
 	@FXML private GridPane boardGrid;
 	@FXML private Text Title;
 
+	@FXML private Label Labelcuatros;
+
 	// vista y modelo (MVC)
 	private View view;
 	private Model model;
@@ -43,7 +45,6 @@ public class Controller {
 		// aparece la vista y el modelo cuando se han cargado los componentes del tablero
 		if (boardGrid != null && Title != null) {
 			view = new View(boardGrid, Title);
-			view.setupCellValidation();
 			model = new Model();
 		}
 	}
@@ -95,6 +96,8 @@ public class Controller {
 				}
 				view.setGenTablero(tablerofantasma);
 				view.setTitle("¡Juego Iniciado!");
+				view.setupCellValidation(tablerofantasma, Labelcuatros);
+				//view.cuatros(tablerofantasma, Labelcuatros);
 			} //si hace click en cancelar no sucede nada
 		});
 	}
@@ -120,12 +123,9 @@ public class Controller {
 
 				//Cambiar aqui con el tablero fantasma
 				view.setGenTablero(tablerofantasma);
-
-
 			}
 		});
 	}
-
 
 
 	// Model // // / // / /// / / / / // / / / / / / // / / / / / / // / / / / / // / / / /
@@ -145,6 +145,7 @@ public class Controller {
 		view.updateCell(row, col, String.valueOf(generarClues[row][col]));
 		view.setCellStyle(row, col, "-fx-border-color: blue; -fx-border-width: 2;");
 		showAlert("Sugerencia", "Prueba con:", "Número " + generarClues[row][col]);
+		view.cuatros(tablerofantasma, Labelcuatros);
 	}
 	
 	/* Metodo auxiliar  */

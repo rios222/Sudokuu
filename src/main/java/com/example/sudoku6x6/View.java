@@ -1,5 +1,6 @@
 package com.example.sudoku6x6;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -53,13 +54,18 @@ public class View {
 	}
 
 	// Metodo para la validación de celdas para que solo acepten numeros del 1 al 6, de no ser asi muestra un mensaje de error
-	public void setupCellValidation() {
+	public void setupCellValidation(String[][] tablero, Label cuatros) {
+		String sustituto[][] = new String[6][6];;
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 6; j++) {
 				TextField cell = getCell(i, j);
-
+				sustituto[i][j] = tablero[i][j];
+				int fila = i;
+				int col = j;
 				if (cell != null) {
 					cell.textProperty().addListener((observable, oldValue, newValue) -> {
+						sustituto[fila][col] = newValue;
+						cuatros(sustituto, cuatros);
 						if (!newValue.isEmpty()) {  // Solo validar si hay contenido
 							try {
 								int num = Integer.parseInt(newValue);
@@ -77,6 +83,21 @@ public class View {
 			}
 		}
 	}
+
+
+	public void cuatros(String[][] tablero, Label Labelcuatros) {
+		int cuatros = 6;
+		for (int i = 0; i < tablero.length; i++) {
+			for (int j = 0; j < tablero[i].length; j++) {
+				if (tablero[i][j].equals("4")) cuatros--;
+			}
+		}
+		if (cuatros > 0) Labelcuatros.setText("Faltan " + cuatros + " Cuatros");
+		if (cuatros < 0) Labelcuatros.setText("Tienes " +cuatros +" Cuatros de mas");
+	}
+
+
+
 
 	// alerta de error comun
 	private void showErrorAlert(String title, String message) {
