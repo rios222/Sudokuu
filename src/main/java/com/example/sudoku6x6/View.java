@@ -1,58 +1,25 @@
 package com.example.sudoku6x6;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.scene.control.Alert;
 
 //Contiene el tablero y el titulo
 public class View {
 	private GridPane boardGrid;
 	private Text title;
-
-	//Constructor que recibe el Gridpane y el titulo
 	public View(GridPane boardGrid, Text title) {
 		this.boardGrid = boardGrid;
 		this.title = title;
+		
 	}
-
-	// Este método revisa si el número ya está en la fila, columna o bloque 2x3
-	private boolean esEntradaValida(int fila, int columna, String valor) {
-		for (int i = 0; i < 6; i++) {
-			// Verifica fila
-			if (i != columna) {
-				TextField cell = getCell(fila, i);
-				if (cell != null && valor.equals(cell.getText())) {
-					return false;
-				}
-			}
-			// Verifica columna
-			if (i != fila) {
-				TextField cell = getCell(i, columna);
-				if (cell != null && valor.equals(cell.getText())) {
-					return false;
-				}
-			}
+		public Button getVerificarButton() {
+			return new Button("Verificar");
 		}
 
-		// Verifica el bloque 2x3
-		int bloqueFila = (fila / 2) * 2;
-		int bloqueCol = (columna / 3) * 3;
 
-		for (int i = bloqueFila; i < bloqueFila + 2; i++) {
-			for (int j = bloqueCol; j < bloqueCol + 3; j++) {
-				if (i == fila && j == columna) continue;
-				TextField cell = getCell(i, j);
-				if (cell != null && valor.equals(cell.getText())) {
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-
-	// Metodo para la validación de celdas para que solo acepten numeros del 1 al 6, de no ser asi muestra un mensaje de error
 	public void setupCellValidation() {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 6; j++) {
@@ -77,7 +44,6 @@ public class View {
 		}
 	}
 
-	// alerta de error comun
 	private void showErrorAlert(String title, String message) {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setTitle(title);
@@ -86,7 +52,6 @@ public class View {
 		alert.showAndWait();
 	}
 
-	// Metodo para manipular celdas desde la view
 	public void updateCell(int row, int col, String value) {
 		TextField cell = getCell(row, col);
 		if (cell != null) {
@@ -94,22 +59,19 @@ public class View {
 		}
 	}
 
-    //cambia estilo visual de la celda
 	public void setCellStyle(int row, int col, String style) {
 		TextField cell = getCell(row, col);
 		if (cell != null) {
 			cell.setStyle(style);
 		}
 	}
-    // activa o desactiva la celda
+
 	public void setCellEditable(int row, int col, boolean editable) {
 		TextField cell = getCell(row, col);
 		if (cell != null) {
 			cell.setEditable(editable);
 		}
 	}
-
-	// limpia el tablero visualmente
 	public void clearBoard() {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 6; j++) {
@@ -119,7 +81,7 @@ public class View {
 			}
 		}
 	}
-    //agrega las pistas generadas y bloquea las celdas
+
 	public void setGenTablero(String[][] clues) {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 6; j++) {
@@ -132,15 +94,11 @@ public class View {
 		}
 	}
 
-	// Texto del titulo
 	public void setTitle(String text) {
 		if (title != null) {
 			title.setText(text);
 		}
 	}
-    //Busca y retorna el TextField correspondiente a la posición (row, col) usando su ID en el GridPane
-	private TextField getCell(int row, int col) {
-		String cellId = "cell" + row + col;
-		return (TextField) boardGrid.lookup("#" + cellId);
+
 	}
 }

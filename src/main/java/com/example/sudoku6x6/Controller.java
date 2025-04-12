@@ -23,6 +23,7 @@ public class Controller {
 	@FXML private Label statusLabel;
 	@FXML private Button btnIniciar;
 	@FXML private Button btnComoJugar;
+	@FXML private Button verificarSudokuButton;
 	
 	// Elementos del tablero
 	@FXML private GridPane boardGrid;
@@ -32,24 +33,20 @@ public class Controller {
 	private View view;
 	private Model model;
 
-	@FXML
-	public void initialize() {
-
-		//se inicia el label del menu principal
-		if (statusLabel != null) {
-			statusLabel.setText("SUDOKU 6X6 :D");
-		}
-		// aparece la vista y el modelo cuando se han cargado los componentes del tablero
-		if (boardGrid != null && Title != null) {
-			view = new View(boardGrid, Title);
 			view.setupCellValidation();
-			model = new Model();
+			Button verificarBtn = view.getVerificarButton();
+			if (!boardGrid.getChildren().contains(verificarBtn)) {
+				verificarBtn.setOnAction(this::verificarVictoria); // Asocia al método en el controller
+				boardGrid.add(verificarBtn, 6, 0);  // Agrega el botón en el GridPane
+			}
+			
+			if (statusLabel != null) {
+				statusLabel.setText("SUDOKU 6X6 :D");
+			}
 		}
 	}
-	
-	// llamado de la ventana main
 
-	//encargado de hacer el cambio al tablero principal del juego
+
 	public void iniciarJuego(ActionEvent event) throws Exception {
 					Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/sudoku6x6/sudoku_main.fxml")));
 					Stage stage = new Stage();
@@ -152,3 +149,4 @@ public class Controller {
 		alert.showAndWait();
 	}
 }
+
