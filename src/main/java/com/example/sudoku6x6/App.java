@@ -15,7 +15,7 @@ public class App extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/sudoku6x6/menu_main.fxml")));
 		primaryStage.setTitle("Menú Principal - Sudoku 6x6");
-		primaryStage.setScene(new Scene(root, 700, 600));
+		primaryStage.setScene(new Scene(root, 500, 400));
 		primaryStage.show();
 	}
 	
@@ -24,3 +24,7 @@ public class App extends Application {
 	}
 }
 
+//Modificaciones del Mini proyecto 2 por sustentacion
+
+//En el tablero mostrar en tiempo real cuantos 4 faltam -
+//al iniciar poner todos los 2 - Hecho

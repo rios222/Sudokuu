@@ -17,89 +17,49 @@ import javafx.scene.Scene;
 import java.util.Objects;
 
 public class Controller {
+	String[][] tablerofantasma = new String[6][6];
+	String[][] generarClues;
+	int[][] solucion;
 	// Elementos del menú principal
 	@FXML private Label statusLabel;
 	@FXML private Button btnIniciar;
 	@FXML private Button btnComoJugar;
-	@FXML private Button verificarSudokuButton;
 	
-	// Elementos del tablero Sudoku
+	// Elementos del tablero
 	@FXML private GridPane boardGrid;
 	@FXML private Text Title;
-	
+
+	// vista y modelo (MVC)
 	private View view;
 	private Model model;
-	private String[][] clues;
-	
-	@FXML
-	private void verificarVictoria(ActionEvent event) {
-		// Verificar si todas las celdas están llenas
-		if (!view.isBoardComplete()) {
-			showAlert("Error", "El tablero aún tiene celdas vacías.", "Por favor, completa todas las celdas antes de verificar.");
-			return;
-		}
-		
-		boolean esValido = model.esSudokuValido(); // Asumiendo que tienes un modelo que realiza la validación
-		
-		if (esValido) {
-			showAlert("¡Felicidades!", null, "El Sudoku ha sido completado correctamente 🎉");
-		} else {
-			showAlert("Sudoku no válido", null, "Revisa tus números e intenta nuevamente.");
-		}
-	}
-	@FXML
-	private void verificarSudoku() {
-		if (model.esSudokuValido()) {
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("¡Sudoku correcto!");
-			alert.setHeaderText(null);
-			alert.setContentText("¡Felicidades! Completaste correctamente el Sudoku.");
-			alert.showAndWait();
-		} else {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Error en el Sudoku");
-			alert.setHeaderText(null);
-			alert.setContentText("Hay errores en el tablero. Verifica los valores ingresados.");
-			alert.showAndWait();
-		}
-	}
-	
+
 	@FXML
 	public void initialize() {
-		if (model == null) {
-			model = new Model();  // Instancia del Modelo
+
+		//se inicia el label del menu principal
+		if (statusLabel != null) {
+			statusLabel.setText("SUDOKU 6X6 :D");
 		}
-		
-		if (view == null && boardGrid != null && Title != null) {
-			view = new View(boardGrid, Title);  // Instancia de la Vista
-			model.setView(view);  // Pasamos la vista al modelo
-			
-			// Llamamos a setupCellValidation solo si view ya ha sido inicializada
+		// aparece la vista y el modelo cuando se han cargado los componentes del tablero
+		if (boardGrid != null && Title != null) {
+			view = new View(boardGrid, Title);
 			view.setupCellValidation();
-			Button verificarBtn = view.getVerificarButton();
-			if (!boardGrid.getChildren().contains(verificarBtn)) {
-				verificarBtn.setOnAction(this::verificarVictoria); // Asocia al método en el controller
-				boardGrid.add(verificarBtn, 6, 0);  // Agrega el botón en el GridPane
-			}
-			
-			if (statusLabel != null) {
-				statusLabel.setText("SUDOKU 6X6 :D");
-			}
+			model = new Model();
 		}
 	}
-
 	
+	// llamado de la ventana main
 
-	/* Métodos para el menú principal  */
+	//encargado de hacer el cambio al tablero principal del juego
 	public void iniciarJuego(ActionEvent event) throws Exception {
 					Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/sudoku6x6/sudoku_main.fxml")));
 					Stage stage = new Stage();
 					stage.setTitle("SUDOKU 6X6!!!");
-					stage.setScene(new Scene(root, 480, 400));
+					stage.setScene(new Scene(root, 580, 500));
 					stage.show();
 					((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 				}
-	
+				//instrucciones basicas del juegp
 	public void comoJugar(ActionEvent event) {
 		showAlert("Como se juega? D:", "Instrucciones del sudoku 6x6",
 				"LLena la cuadrícula del 1 al 6 sin repetir número en filas, columnas o cuadros de 3x2.");
@@ -107,9 +67,7 @@ public class Controller {
 
 
 
-
-	/* Métodos para el tablero Sudoku (modificados para usar View) ESPERANDO AL MODEL CON LA LOGICA DEL
-	* SUDOKUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU */
+	// encargado de iniciar la partida
 	@FXML
 	private void Start(ActionEvent event) {
 
@@ -121,24 +79,33 @@ public class Controller {
 
 		// 2. Esperar respuesta del usuario
 		alert.showAndWait().ifPresent(response -> {
-			if (response == javafx.scene.control.ButtonType.OK) {
+			if (response == ButtonType.OK) {
 				// 3. Lógica para iniciar el juego si confirma
-				view.clearBoard();
-				String[][] generarClues = model.GenTablero();
-				view.setGenTablero(generarClues);
+				view.clearBoard(); //limpia el tablero
+
+				//Metodo encargado de generar los tableros
+				generarClues = model.GenTablero();
+				//tablerofantasma = generarClues;
+				for (int i = 0; i < tablerofantasma.length; i++) {
+					for (int j = 0; j < tablerofantasma[i].length; j++) {
+						int binario = (int) (Math.random() * 3); // Genera 0 o 1
+						if (binario == 1 || generarClues[i][j].equals("2")) tablerofantasma[i][j] = generarClues[i][j];
+						else tablerofantasma[i][j] = "";
+					}
+				}
+				view.setGenTablero(tablerofantasma);
 				view.setTitle("¡Juego Iniciado!");
 			} //si hace click en cancelar no sucede nada
 		});
 	}
 
+	//conexion con el boton de view y la ayuda
 	@FXML
 	private void Help(ActionEvent event) {
 		comoJugar(event);
 	}
 
-
-	// Model //// // // / / // / / /// / / / // / / / /
-
+	//Reinicia el juego y genera el tablero desde cero
 	@FXML
 	private void Restart(ActionEvent event) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -147,9 +114,14 @@ public class Controller {
 		alert.setContentText("Se perderán todos los cambios.");
 		
 		alert.showAndWait().ifPresent(response -> {
-			if (response == javafx.scene.control.ButtonType.OK) {
+			if (response == ButtonType.OK) {
 				view.clearBoard();
 				view.setTitle("Sudoku 6x6 - Reiniciado");
+
+				//Cambiar aqui con el tablero fantasma
+				view.setGenTablero(tablerofantasma);
+
+
 			}
 		});
 	}
@@ -160,15 +132,19 @@ public class Controller {
 
 	@FXML
 	private void Incognit(ActionEvent event) {
-		int randomNum = (int) (Math.random() * 6) + 1;
-		int row = (int) (Math.random() * 6);
-		int col = (int) (Math.random() * 6);
-
+		boolean salir = false;
+		int row = 0;
+		int col = 0;
+		while (!salir) {
+			row = (int) (Math.random() * 6);
+			col = (int) (Math.random() * 6);
+			if (tablerofantasma[row][col].isEmpty())
+				salir = true;
+		}
 		// value genera el numero random
-		view.updateCell(row, col, String.valueOf(randomNum));
+		view.updateCell(row, col, String.valueOf(generarClues[row][col]));
 		view.setCellStyle(row, col, "-fx-border-color: blue; -fx-border-width: 2;");
-		
-		showAlert("Sugerencia", "Prueba con:", "Número " + randomNum);
+		showAlert("Sugerencia", "Prueba con:", "Número " + generarClues[row][col]);
 	}
 	
 	/* Metodo auxiliar  */
@@ -180,4 +156,3 @@ public class Controller {
 		alert.showAndWait();
 	}
 }
-
